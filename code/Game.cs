@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using System.Threading.Tasks;
 
 namespace HiddenGamemode
 {
@@ -23,6 +24,9 @@ namespace HiddenGamemode
 			}
 		}
 
+		[Net] public string RoundName { get; set; }
+		[Net] public float RoundTimeLeft { get; set; }
+
 		private static BaseRound _round;
 
 		private int MinimumPlayers = 1; // 2
@@ -35,10 +39,29 @@ namespace HiddenGamemode
 			}
 		}
 
+		public async Task StartSecondTimer()
+		{
+			await Task.DelaySeconds( 1 );
+
+
+			if ( CurrentRound != null )
+			{
+				// TODO: I'm not a fan of this.
+				RoundName = CurrentRound.RoundName;
+				RoundTimeLeft = CurrentRound.TimeLeft;
+
+				CurrentRound.OnSecond();
+			}
+
+			await StartSecondTimer();
+		}
+
 		public override void PostLevelLoaded()
 		{
 			MilitaryTeam = new();
 			HiddenTeam = new();
+
+			_ = StartSecondTimer();
 
 			base.PostLevelLoaded();
 		}
@@ -63,6 +86,8 @@ namespace HiddenGamemode
 		{
 			Log.Info( player.Name + " left, checking minimum player count..." );
 
+			CurrentRound?.OnPlayerLeave( player as Player );
+
 			CheckMinimumPlayers();
 
 			base.PlayerDisconnected( player, reason );
@@ -72,8 +97,6 @@ namespace HiddenGamemode
 
 		private void CheckMinimumPlayers()
 		{
-			Log.Info( "Player Count: " + Sandbox.Player.All.Count );
-
 			if ( Sandbox.Player.All.Count >= MinimumPlayers)
 			{
 				if ( CurrentRound is LobbyRound || CurrentRound == null )

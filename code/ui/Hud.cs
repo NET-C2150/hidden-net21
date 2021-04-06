@@ -17,6 +17,7 @@ namespace HiddenGamemode
 
 			RootPanel.StyleSheet = StyleSheet.FromFile( "/ui/Hud.scss" );
 
+			RootPanel.AddChild<RoundInfo>();
 			RootPanel.AddChild<Vitals>();
 			RootPanel.AddChild<Ammo>();
 
@@ -27,20 +28,7 @@ namespace HiddenGamemode
 			RootPanel.AddChild<InventoryBar>();
 
 			RootPanel.AddChild<ChatBox>();
-			RootPanel.AddChild<KillFeed>();
 			RootPanel.AddChild<Scoreboard>();
-		}
-
-		[ClientRpc]
-		public void OnPlayerDied( string victim, string attacker = null )
-		{
-			Host.AssertClient();
-		}
-
-		[ClientRpc]
-		public void ShowDeathScreen( string attackerName )
-		{
-			Host.AssertClient();
 		}
 	}
 }

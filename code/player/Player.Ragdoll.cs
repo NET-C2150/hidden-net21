@@ -9,7 +9,7 @@ namespace HiddenGamemode
 		[ClientRpc]
 		void BecomeRagdollOnClient( Vector3 force, int forceBone )
 		{
-			var ent = new ModelEntity
+			var ragdoll = new ModelEntity
 			{
 				Pos = Pos,
 				Rot = Rot,
@@ -17,15 +17,15 @@ namespace HiddenGamemode
 				UsePhysicsCollision = true
 			};
 
-			ent.SetInteractsAs( CollisionLayer.Debris );
-			ent.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
-			ent.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
+			ragdoll.SetInteractsAs( CollisionLayer.Debris );
+			ragdoll.SetInteractsWith( CollisionLayer.WORLD_GEOMETRY );
+			ragdoll.SetInteractsExclude( CollisionLayer.Player | CollisionLayer.Debris );
 
-			ent.SetModel( GetModelName() );
-			ent.CopyBonesFrom( this );
-			ent.TakeDecalsFrom( this );
-			ent.SetRagdollVelocityFrom( this );
-			ent.DeleteAsync( 20.0f );
+			ragdoll.SetModel( GetModelName() );
+			ragdoll.CopyBonesFrom( this );
+			ragdoll.TakeDecalsFrom( this );
+			ragdoll.SetRagdollVelocityFrom( this );
+			ragdoll.DeleteAsync( 20.0f );
 
 			foreach ( var child in Children )
 			{
@@ -38,15 +38,15 @@ namespace HiddenGamemode
 
 					var clothing = new ModelEntity();
 					clothing.SetModel( model );
-					clothing.SetParent( ent, true );
+					clothing.SetParent( ragdoll, true );
 				}
 			}
 
-			ent.PhysicsGroup.AddVelocity( force );
+			ragdoll.PhysicsGroup.AddVelocity( force );
 
 			if ( forceBone >= 0 )
 			{
-				var body = ent.GetBonePhysicsBody( forceBone );
+				var body = ragdoll.GetBonePhysicsBody( forceBone );
 
 				if ( body != null )
 				{
@@ -54,14 +54,13 @@ namespace HiddenGamemode
 				}
 				else
 				{
-					ent.PhysicsGroup.AddVelocity( force );
+					ragdoll.PhysicsGroup.AddVelocity( force );
 				}
 			}
 
+			Corpse = ragdoll;
 
-			Corpse = ent;
-
-			RagdollLimit.Watch( ent );
+			RagdollLimit.Watch( ragdoll );
 		}
 	}
 }

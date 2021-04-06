@@ -9,6 +9,7 @@ namespace HiddenGamemode
 {
     public class HuntRound : BaseRound
 	{
+		public override string RoundName => "Hunt and Survive!";
 		public override int RoundDuration => 300;
 
 		public List<Player> Spectators = new();
@@ -56,7 +57,7 @@ namespace HiddenGamemode
 				return;
 			}
 
-			if ( Players.Count == 1 && Players[0].Team is HiddenTeam )
+			if ( Players.Count <= 1 )
 			{
 				// The Hidden has won the game!
 				Game.CurrentRound = new StatsRound();
@@ -72,7 +73,7 @@ namespace HiddenGamemode
 			if ( player.Team is HiddenTeam )
 			{
 				// TODO: The Hidden left the game... how frustrating for everybody (pick a random person to take over?)
-				Game.CurrentRound = new HideRound();
+				Game.CurrentRound = new StatsRound();
 			}
 		}
 

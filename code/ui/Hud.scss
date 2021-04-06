@@ -1,16 +1,9 @@
-﻿
-rootpanel
+﻿rootpanel
 {
 	background-color: rgba( #333, 0 );
 	transition: background-color 0.2s ease-in;
 	transform-origin: 50% 50%;
-
-	&.spawnmenuopen
-	{
-		transition: background-color 0.3s ease-out;
-		background-color: rgba( #333, 0.9 );
-	}
-
+	
 	&.devcamera
 	{
 		display: none;
@@ -19,17 +12,22 @@ rootpanel
 
 vitals
 {
+	background-image: url( /ui/grunge-wide-opacity.png );
+	background-size: 100%;
 	position: absolute;
 	bottom: 64px;
 	left: 100px;
-	font-size: 64px;
-	color: #ff0;
-	mix-blend-mode: lighten;
+	font-size: 40px;
+	color: #fff;
+	width: 256px;
+	height: 96px;
 	font-family: Roboto;
-
+	align-items: center;
+	justify-content: center;
+	
 	label
 	{
-		text-shadow: 0px 0px 20px #f70a;
+		text-shadow: 0px 0px 20px #000;
 
 		&.danger
 		{
@@ -42,42 +40,100 @@ vitals
 
 ammo
 {
+	background-image: url( /ui/grunge-wide-opacity.png );
+	background-size: 100%;
 	position: absolute;
 	bottom: 64px;
 	right: 100px;
-	font-size: 64px;
+	font-size: 40px;
 	color: #ff0;
-	mix-blend-mode: lighten;
+	width: 256px;
+	height: 96px;
 	font-family: Roboto;
-
+	align-items: center;
+	justify-content: center;
+	display: none;
+	
 	label
 	{
-		text-shadow: 0px 0px 20px #f70a;
+		text-shadow: 0px 0px 20px #000;
 
 		&.danger
 		{
 			color: #f00;
 		}
 	}
+	
+	&.active
+	{
+		display: auto;
+	}
+}
+
+.roundContainer
+{
+	background-image: url( /ui/grunge-wide-opacity.png );
+	background-size: 100%;
+	position: absolute;
+	top: 64px;
+	margin: 0 auto;
+	font-size: 30px;
+	color: #ff0;
+	width: 256px;
+	height: 96px;
+	text-align: center;
+	font-family: Roboto;
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	
+	label
+	{
+		text-shadow: 0px 0px 20px #000;
+	}
+	
+	.roundName
+	{
+		color: #FFFBD8;
+		font-size: 30px;
+	}
+	
+	.timeLeft
+	{
+		color: white;
+		font-size: 20px;
+		
+		&.hidden
+		{
+			display: none;
+		}
+	}
+}
+
+roundInfo
+{
+	width: 100%;
+	min-height: 100%;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 
-.dm_pistol .icon
+.hdn_pistol .icon
 {
 	background-image: url( /ui/weapons/dm_pistol.png );
 }
 
-.dm_shotgun .icon
+.hdn_shotgun .icon
 {
 	background-image: url( /ui/weapons/dm_shotgun.png );
 }
 
-.dm_smg .icon
+.hdn_smg .icon
 {
 	background-image: url( /ui/weapons/dm_smg.png );
-}
-
-.dm_crossbow .icon, .crossbow_bolt .icon
-{
-	background-image: url( /ui/weapons/dm_crossbow.png );
 }

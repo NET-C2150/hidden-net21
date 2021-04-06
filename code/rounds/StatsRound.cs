@@ -9,6 +9,7 @@ namespace HiddenGamemode
 {
 	public class StatsRound : BaseRound
 	{
+		public override string RoundName => "Game Over";
 		public override int RoundDuration => 10;
 
 		protected override void OnStart()

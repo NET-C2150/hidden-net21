@@ -9,21 +9,48 @@ namespace HiddenGamemode
     public abstract class BaseRound
 	{
 		public virtual int RoundDuration => 0;
+		public virtual string RoundName => "";
 
 		public List<Player> Players = new();
+
+		public float RoundEndTime;
+
+		public float TimeLeft
+		{
+			get
+			{
+				return RoundEndTime - Sandbox.Time.Now;
+			}
+		}
+
+		public string TimeLeftFormatted
+		{
+			get
+			{
+				var timeLeft = TimeLeft;
+				var mins = Math.Round( timeLeft / 60 );
+				var secs = Math.Round( timeLeft % 60 );
+
+				//var span = TimeSpan.FromSeconds( TimeLeft );
+				//return span.ToString( "mm:ss" );
+
+				return string.Format( "{0}:{1}", mins, secs );
+			}
+		}
 
 		public void Start()
 		{
 			if ( RoundDuration > 0 )
 			{
-				_ = WaitForTimeOver();
+				RoundEndTime = Sandbox.Time.Now + RoundDuration;
 			}
-
+			
 			OnStart();
 		}
 
 		public void Finish()
 		{
+			RoundEndTime = 0f;
 			Players.Clear();
 			OnFinish();
 		}
@@ -45,16 +72,19 @@ namespace HiddenGamemode
 			Players.Remove( player );
 		}
 
+		public virtual void OnSecond()
+		{
+			if ( RoundEndTime > 0 && Sandbox.Time.Now >= RoundEndTime )
+			{
+				RoundEndTime = 0f;
+				OnTimeUp();
+			}
+		}
+
 		protected virtual void OnStart() { }
 
 		protected virtual void OnFinish() { }
 
 		protected virtual void OnTimeUp() { }
-
-		protected async Task WaitForTimeOver()
-		{
-			await Task.Delay( RoundDuration * 1000 );
-			OnTimeUp();
-		}
 	}
 }

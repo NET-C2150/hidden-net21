@@ -9,6 +9,7 @@ namespace HiddenGamemode
 {
 	public class HideRound : BaseRound
 	{
+		public override string RoundName => "Hide or Prepare!";
 		public override int RoundDuration => 20;
 
 		protected override void OnStart()

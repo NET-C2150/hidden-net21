@@ -38,7 +38,6 @@ namespace HiddenGamemode
 		{
 			if ( eventName == "fire" )
 			{
-				// this is a hack until we have animation or TriggerClass support
 				fireCounter += 2;
 			}
 

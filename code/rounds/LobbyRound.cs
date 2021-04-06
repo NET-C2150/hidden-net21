@@ -9,6 +9,8 @@ namespace HiddenGamemode
 {
     public class LobbyRound : BaseRound
 	{
+		public override string RoundName => "Not Enough Players...";
+
 		protected override void OnStart()
 		{
 			Log.Info( "Started Lobby Round" );
