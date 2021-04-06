@@ -1,0 +1,5 @@
+.codegen/
+obj/
+code/accesslist.txt
+Properties
+codegen-*

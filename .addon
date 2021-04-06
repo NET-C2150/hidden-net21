@@ -1,0 +1,24 @@
+{
+		"name": "Hidden",
+		"version": "1.0",
+		"sharedassets": "*.*",
+
+		"depends": 
+		[
+			"base",
+			"citizen",
+			"rust"
+		],
+
+		//
+		// Addons can contain multiple addons, describe them here
+		//
+		"gamemodes":
+		[
+				{
+						"name": "sbox-hidden",
+						"title": "Hidden",
+						"description": "Evade and eliminate the hidden threat before they eliminate you"
+				}
+		]
+}
