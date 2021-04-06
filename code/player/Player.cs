@@ -11,50 +11,33 @@ namespace HiddenGamemode
 		public Player()
 		{
 			Inventory = new Inventory( this );
-		}
-
-		public override void Respawn()
-		{
-			SetModel( "models/citizen/citizen.vmdl" );
-
-			Controller = new WalkController();
 			Animator = new StandardPlayerAnimator();
-			Camera = new FirstPersonCamera();
-
-			EnableAllCollisions = true;
-			EnableDrawing = true;
-			EnableHideInFirstPerson = true;
-			EnableShadowInFirstPerson = true;
-
-			if (Rand.Int(1, 2) == 1)
-			{
-				Team = Game.HiddenTeam;
-			}
-			else
-			{
-				Team = Game.MilitaryTeam;
-			}
-			
-			Team.SupplyLoadout( this );
-
-			base.Respawn();
 		}
-		public override void OnKilled()
+
+		public void Hide()
 		{
-			base.OnKilled();
-
-			Inventory.DropActive();
-			Inventory.DeleteContents();
-
-			BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
-
 			Controller = null;
-			Camera = new SpectateRagdollCamera();
+			Camera = new FixedCamera();
 
 			EnableAllCollisions = false;
 			EnableDrawing = false;
 		}
 
+		public override void Respawn()
+		{
+			Game.CurrentRound?.OnPlayerSpawn( this );
+
+			base.Respawn();
+		}
+
+		public override void OnKilled()
+		{
+			base.OnKilled();
+
+			BecomeRagdollOnClient( LastDamage.Force, GetHitboxBone( LastDamage.HitboxIndex ) );
+
+			Inventory.DeleteContents();
+		}
 
 		protected override void Tick()
 		{

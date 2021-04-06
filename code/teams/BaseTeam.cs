@@ -14,7 +14,6 @@ namespace HiddenGamemode
 		public Team()
 		{
 			Transmit = TransmitType.Always;
-			Log.Info( "Created on: " + IsClient );
 		}
 
 		public virtual void OnLeave( Player player  ) { }
